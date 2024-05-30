@@ -1,6 +1,4 @@
-Certainly! Here's the combined code for both functions:
 
-```r
 makeCacheMatrix <- function(mat = matrix()) {
   inverse <- NULL
   
@@ -40,6 +38,4 @@ cacheSolve <- function(cacheMatrix, ...) {
   cacheMatrix$cacheInverse(inverse)
   inverse
 }
-```
 
-You can use both functions together to create a special matrix object that caches its inverse and efficiently retrieves it when needed.
