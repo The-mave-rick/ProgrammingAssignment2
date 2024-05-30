@@ -1,31 +1,45 @@
-setwd('C:/Users/rubind1/Documents/Coursera-R')
-##
-## I simply set the input x as a matrix
-## and then set the solved value "s" as a null
-## then I changed every reference to "mean" to "solve"
-makeCacheMatrix <- function(x = matrix(sample(1:100,9),3,3)) {
-  s <- NULL
-  set <- function(y) {
-    x <<- y
-    s <<- NULL
+Certainly! Here's the combined code for both functions:
+
+```r
+makeCacheMatrix <- function(mat = matrix()) {
+  inverse <- NULL
+  
+  set <- function(matrix) {
+    mat <<- matrix
+    inverse <<- NULL
   }
-  get <- function() x
-  setsolve <- function(solve) s <<- solve
-  getsolve <- function() s
-  list(set = set, get = get,
-       setsolve = setsolve,
-       getsolve = getsolve)
-}
-##
-## Same here, changed "mean" to "solve" and "m" to "s"
-cacheSolve <- function(x, ...) {
-  s <- x$getsolve()
-  if(!is.null(s)) {
-    message("getting inversed matrix")
-    return(s)
+  
+  get <- function() {
+    mat
   }
-  data <- x$get()
-  s <- solve(data, ...)
-  x$setsolve(s)
-  s
+  
+  cacheInverse <- function(inverseMatrix) {
+    inverse <<- inverseMatrix
+  }
+  
+  getInverse <- function() {
+    inverse
+  }
+  
+  list(set = set,
+       get = get,
+       cacheInverse = cacheInverse,
+       getInverse = getInverse)
 }
+
+cacheSolve <- function(cacheMatrix, ...) {
+  inverse <- cacheMatrix$getInverse()
+  
+  if (!is.null(inverse)) {
+    message("Getting cached inverse")
+    return(inverse)
+  }
+  
+  mat <- cacheMatrix$get()
+  inverse <- solve(mat, ...)
+  cacheMatrix$cacheInverse(inverse)
+  inverse
+}
+```
+
+You can use both functions together to create a special matrix object that caches its inverse and efficiently retrieves it when needed.
